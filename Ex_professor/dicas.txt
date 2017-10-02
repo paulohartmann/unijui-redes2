@@ -1,0 +1,191 @@
+Finding out disk space used by Boxes
+
+At some point we might implement a vagrant cache stats command that will give you that information, but while that does not get implemented you can run the code below if you are on a Linux machine:
+
+# scope = :box (default)
+$ du -h -d0 $HOME/.vagrant.d/cache
+405M /home/user/.vagrant.d/cache/precise64
+1.1G /home/user/.vagrant.d/cache/raring64
+448M /home/user/.vagrant.d/cache/quantal64
+
+# scope = :machine
+$ du -h -d0 .vagrant/machines/*/cache
+16K	 .vagrant/machines/precise/cache
+90M	 .vagrant/machines/quantal/cache
+210M .vagrant/machines/raring/cache
+
+Cleaning up cache buckets
+
+At some point we might implement a vagrant cache clean [bucket-name] command that will take care of things for you, but while that does not get implemented you can run the code below if you are on a Linux machine:
+
+# scope = :box (default)
+$ rm -rf $HOME/.vagrant.d/cache/<box-name>/<optional-bucket-name>
+
+# scope = :machine
+$ rm -rf .vagrant/machines/<machine-name>/cache/<optional-bucket-name>
+
+
+Comandos úteis:
+
+vagrant global-status  # retorna todas os box criados e seu status
+
+
+Common commands:
+     box             manages boxes: installation, removal, etc.
+     connect         connect to a remotely shared Vagrant environment
+     destroy         stops and deletes all traces of the vagrant machine
+     global-status   outputs status Vagrant environments for this user
+     halt            stops the vagrant machine
+     help            shows the help for a subcommand
+     init            initializes a new Vagrant environment by creating a Vagrantfile
+     login           log in to HashiCorp's Atlas
+     package         packages a running vagrant environment into a box
+     plugin          manages plugins: install, uninstall, update, etc.
+     port            displays information about guest port mappings
+     powershell      connects to machine via powershell remoting
+     provision       provisions the vagrant machine
+     push            deploys code in this environment to a configured destination
+     rdp             connects to machine via RDP
+     reload          restarts vagrant machine, loads new Vagrantfile configuration
+     resume          resume a suspended vagrant machine
+     share           share your Vagrant environment with anyone in the world
+     snapshot        manages snapshots: saving, restoring, etc.
+     ssh             connects to machine via SSH
+     ssh-config      outputs OpenSSH valid configuration to connect to the machine
+     status          outputs status of the vagrant machine
+     suspend         suspends the machine
+     up              starts and provisions the vagrant environment
+     version         prints current and latest Vagrant version
+
+	  
+	  Dica 01
+	  
+	  file{'arquivo': } é uma declaração de recurso e 
+	  
+	  File['arquivo'] é uma referência ao resource declarado.
+	  
+	  Lembre-se: usamos caixa baixa quando estamos declarando novos resources. 
+		  
+	  Quando queremos referenciar um resource que já existe, usamos letra maiúscula na primeira letra do seu tipo, 
+	  seguido do título do resource entre colchetes. 
+	  
+	  Dica 02 - Box Download
+	  
+	  precise32  e precise 64   podem ser baixados no link:
+	  
+	  wget http://files.vagrantup.com/precise32.box
+	  
+	  wget http://files.vagrantup.com/precise64.box
+	  
+	  1-) caso vc queira gerar um box com seu Box configurado basta usar o comando:
+
+	       vagrant package 
+
+	       que o vagrant irá criar um box com o nome package.box
+
+	  2-)  Abaixo consta exemplo de um Vagrantfile padrão
+
+	  Vagrant.configure("2") do |config|
+
+	      config.vm.box = "precise64"
+
+	      # uso um box local, ou substituir por 
+		   
+	      # config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+	      config.vm.box_url = "file:///Users/paulosausen/ubuntu/precise64/precise64.box"
+   
+	      # pode ser usado a interface como bridge ai use 
+	      # config.vm.network "public_network"
+	      config.vm.network :private_network, ip: "192.168.33.101"
+
+	      config.vm.synced_folder "./", "/vagrant"
+	  end
+	   3-)  Outro exemplo de Vagrantfile, usa $sysPackages (lista pacotes economizando espaço)
+
+	  Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
+
+	  exec { 'apt-get update':
+	      command => 'apt-get update',
+	      timeout => 60,
+	      tries   => 3
+	  }
+
+	  class { 'apt': }
+
+	  $sysPackages = ['python-software-properties', 'build-essential', 'apache2', 'apache2.2-common']
+	      package { $sysPackages:
+	      ensure => "installed",
+	      require => Exec['apt-get update'],
+	  }
+
+	  service { apache2:
+	      ensure  => running,
+	      enable  => true,
+	      require => Package['apache2', 'apache2.2-common'],
+	  }
+
+	  4-) comando para validar se o arquivo .pp esta ok
+
+	  puppet parser validate default.pp
+
+	  5-) usar editores que suportam a sintaxe de puppet eu uso TextMate (Mac OS) tem o sublime (multiplataforma)
+
+
+	  6-)  file{'arquivo': } é uma declaração de recurso e 
+	       File['arquivo'] é uma referência ao resource declarado.
+	  
+	  	  Lembre-se: usamos caixa baixa quando estamos declarando novos 
+	  	  resources. Quando queremos referenciar um resource que já existe, 
+	  	  usamos letra maiúscula na primeira letra do seu tipo, 
+	  	  seguido do título do resource entre colchetes. 
+	  
+	  7-) Para usar copia arquivo leia a apostila-puppet pagina 32.	  
+
+	  8-) comando para ver VM ativas 
+	  vagrant global-status
+
+
+	  9-) caso de erro de proprietario use o comando 
+
+	  vi .vagrant/machines/default/virtualbox/creator_uid
+
+
+	  10-)  As VM são criadas em:
+
+	  /private/var/root/VirtualBox VMs
+
+	  11-) desistalar Vagrant Mac OS
+
+	  rm -rf /opt/vagrant
+	  rm -f /usr/bin/vagrant
+
+	  On all platforms, remove the ~/.vagrant.d directory to delete the user data.
+
+	  12-) lista usuarios
+	  getent passwd | cut -d \: -f1
+
+	  13-) senha puppet 
+
+	  sudo apt-get install whois
+
+	  mkpasswd -m sha-512
+
+
+	  export http_proxy=http://192.168.33.101:3128
+
+	  sudo service squid3 restart
+
+
+	  alterar horario
+
+	  1. parar  ntpd
+	  sudo service ntp stop
+
+	  sudo /etc/init.d/ntp stop
+	  2. altera o date 
+	  sudo date 121215152016
+	  formato ddmmhhmmaaaa
+
+	  To prevent it from starting at boot:
+	  sudo update-rc.d -f ntp remove

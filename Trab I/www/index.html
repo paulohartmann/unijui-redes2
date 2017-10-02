@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>nginx - Redes II - UNIJUÍ</title>
+
+        <!-- css -->
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/nivo-lightbox.css" rel="stylesheet" />
+        <link href="css/nivo-lightbox-theme/default/default.css" rel="stylesheet" type="text/css" />
+        <link href="css/animate.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet">
+
+        <!-- template skin -->
+        <link id="t-colors" href="color/default.css" rel="stylesheet">
+    </head>
+
+    <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+        <div id="wrapper">
+            <!-- Section: intro -->
+            <section id="intro" class="intro">
+                <div class="intro-content">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s">
+                                    <img src="img/nginx_logo.png" class="img-responsive" alt="" /><br/>
+                                    <b>Grupo 03:</b><br/>
+                                    - Diego Boehm<br/>
+                                    - Maikel Trentini<br/>
+                                    - Paulo H. Hartmann<br/><br/>
+                                    <b>Menu:</b><br/>
+                                    <a href="#content1"><u>Comparativos entre apache e nginx</u></a><br/>
+                                    <a href="#callaction"><u>Árvore e mapa da instalação</u></a><br/>
+                                    <a href="#arquivos1"><u>Códigos de arquivos</u></a><br/>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6 slogan">
+                                <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                                    <h2>Nginx | Engine x</h2>
+                                    <p>
+                                        É um servidor Web, proxy reverso, proxy balanceador de carga, e faz praticamente tudo que o Apache faz, só que muito mais rápido. 
+                                        Seu Proxy reverso funciona da seguinte maneira: É instalado para ficar na frente de um servidor Web e todas as requisições externas são endereçadas para um dos servidores web através de um roteamento feito pelo servidor proxy, que pode tratar ele mesmo a requisição, ou encaminhar a requisição parcial ou total para o próprio servidor web, que então tratará ela.
+
+
+                                    </p>
+                                    <p>
+                                        Um proxy reverso pode ser usado para balancear a carga de um cluster de servidores Web. O que é exatamente o oposto de um proxy convencional, que age como um despachante para o tráfego de saída de uma rede, representando as requisições dos clientes internos para os servidores externos à rede a qual o servidor proxy atende.
+                                        É nessa parte que o Nginx se destaca, mas o apache não é necessariamente seu concorrente, pois podem trabalharem juntos, um fazendo a redução do uso de memória  do apache quando o outro possui um bom controle de cache.
+
+                                    </p>
+                                </div>
+                                <div class="buttons">
+                                    <a href="https://nginx.org" target="_blank" class="btn btn-success btn-lg wow fadeInLeft" data-wow-duration="2s" data-wow-delay="0.2s"><i class="fa fa-external-link fa-2x"></i> Página Ofícial<br /> <small>nginx version 1.13.4</small></a>
+                                </div>
+
+                            </div>					
+                        </div>		
+                    </div>
+                </div>		
+            </section>
+
+            <!-- /Section: intro -->
+            <div class="divider-short"></div>
+
+            <section id="content1" class="home-section">
+
+                <div class="container">
+                    <div class="row text-center heading">
+                        <h3>Comparativos</h3>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="wow fadeInLeft" data-wow-delay="0.2s">
+                                <img src="img/nginx_comp01.png" alt="" target="_blank" class="img-responsive" />
+                            </div>
+                            <br/><br/>
+                            <div class="wow fadeInLeft" data-wow-delay="0.2s">
+                                <img src="img/nginx_comp02.png" alt="" class="img-responsive" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="wow fadeInRight" data-wow-delay="0.3s">
+                                <div class="features">							
+                                    <i class="fa fa-hand-o-right fa-2x circled bg-skin float-left"></i>
+                                    <h5>Utilização de Servidores HTTP</h5>
+                                    <p>
+                                        Apache: 50.4%<br/>
+                                        Nginx: 32.7%<br/>
+                                        Microsoft-IIS: 11.4%<br/>
+                                    </p>
+                                </div>
+                                <div class="features">							
+                                    <i class="fa fa-hand-o-right fa-2x circled bg-skin float-left"></i>
+                                    <h5>Performace (Testes de requisições, 30sec)</h5>
+                                    <p>
+                                        <b>9871</b> requisições completadas no Nginx contra <b>4561</b> requisições no Apache para uma página dinamica <i>.php</i><br/>
+                                        21231 requisições completadas no Nginx contra 10127 requisições no Apache para uma página estatica <i>.html</i><br/>
+                                        639 requisições completadas no Nginx contra 621 requisições no Apache para um arquivo de <i>imagem.</i><br/><br/>
+                                        <b> Nginx obteve performance de até 116% maior que o do Apache2</b>
+
+                                    </p>
+                                </div>
+                                <div class="features">							
+                                    <i class="fa fa-hand-o-right fa-2x circled bg-skin float-left"></i>
+                                    <h5>Tamanho da instalação (no Ubuntu)</h5>
+                                    <p>
+                                        Nginix: 37,92 KB<br/>
+                                        Apache 2: 6,36 KB<br/>
+
+                                    </p>
+                                </div>
+                                <div class="features">							
+                                    <i class="fa fa-hand-o-right fa-2x circled bg-skin float-left"></i>
+                                    <h5>Memória Ocupada</h5>
+                                    <p>
+                                        Segundo testes do Guia do PC com o Apache servindo todo o conteúdo, o consumo de memória do servidor ficava por volta dos 900 MB. Com o nginx servindo conteúdo estático usava 213 MB de RAM em momentos de pico.
+
+                                    </p>
+                                </div>
+                                <div class="features">							
+                                    <i class="fa fa-hand-o-right fa-2x circled bg-skin float-left"></i>
+                                    <h5>Funções padrões</h5>
+                                    <p>
+                                        O Ngnix possui um proxy reverso, proxy balanceador de carga e os mesmos recursos do apache, que são apenas de servidor web (http/htttps).
+
+                                    </p>
+                                </div>
+
+                                <div class="features">							
+                                    <i class="fa fa-hand-o-right fa-2x circled bg-skin float-left"></i>
+                                    <h5>Atualizações</h5>
+                                    <p>
+                                        Ambos recebem atualizações ou correções de bugs seguidamente, pois como se tratam de serviços “essenciais”, não podem ser abandonados/esquecidos pois principalmente assim que surgem as falhas na segurança.
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="callaction" class="home-section paddingtop-40">	
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                        <div class="row text-center heading">
+                        	<h3>Mapa e Árvore da instalação</h3>
+                    		</div>
+                            <div class="callaction">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="wow fadeInUp" data-wow-delay="0.1s">
+                                            <div class="cta-text">
+                                                <h3>Mapa da instalação do servidor com vagrant e puppet</h3>
+                                                <p>
+                                                <ul>
+                                                    <li>manifests
+                                                        <ul>
+                                                            <li>default.pp</li>	
+                                                        </ul>
+                                                    </li>
+                                                    <li>modules
+                                                        <ul>
+                                                            <li>nginx
+                                                                <ul>
+                                                                    <li>manifests
+                                                                        <ul>
+                                                                            <li>init.pp</li>	
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>	
+                                                            <li>system-update
+                                                                <ul>
+                                                                    <li>manifests
+                                                                        <ul>
+                                                                            <li>init.pp</li>	
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>	
+                                                        </ul>
+                                                    </li>
+                                                    <li>Vagrantfile</li>
+                                                    <li>www</li>
+                                                </ul>
+
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        No arquivo <b>Vagrantfile</b>	é feito a configuração para subir o Virtual Box, nele ficam algumas configurações como nome da máquina, quantidade de memoria alocada, cpu, também pode ser inserido um nome para a VM de forma que, se precisar deletar ela, fica mais fácil de achar. <br/>
+                                        No nosso exemplo já existe tambem um IP para o servidor http do box e também uma pasta sincronizada com todos os arquivos do servidor (/www). Ali também ficam as informações para o <b>puppet</b> conseguir carregar seus arquivos e montar sua estrutura através da pasta <i>/modules</i>.<br/><br/>
+
+                                        No arquivo <b>default.pp</b> dentro da pasta <i>/manifests</i> estão as configurações para as estruturas das pastas que o puppet irá buscar para fazer as instalações necessárias. Como por exemplo o <i>apt-get update</i> e o <i>nginx</i>.<br/><br/>
+
+                                        Dentro da pasta (classe) de cada module existe outro arquivo <i>/manifest</i> com as informações necessarias para, por exemplo, deixar rodando o <i>nginx</i> ou então fazer alguma atualização, como um, <i>apt-get update</i>.<br/><br/>
+
+                                        Na pasta <i>/www</i> contem todos os arquivos desta página, desde imagens, css, arquivos javascript, assim como este index. Esta pasta é sincronizada no momento que o servidor é criado, inicialmente inserida no <i>/home/www</i> e após da instalação e do serviço do nginx estiver rodando, ela é copiada atravez de um <i>cp -R</i> para o diretório do <b>nginx</b>.
+
+
+                                    </div>
+                                </div><br/><br/>
+
+                                <div class="row" id="arquivos1">                                	
+                                    <div class="row">
+                                    <div class="row text-center heading">
+                        							<h3>Instalação nginx</h3>
+                    								</div>
+                                        <div class="col-md-12">
+                                            <b>Alguns comandos para instalar o nginx foram:</b><br/>
+                                            <ul>
+                                                <li>Primeiro, assegura que foi feito o <i>apt-get update</i> para conter todos os arquivos para instalar o <b>nginx</b></li>
+                                                <li>Depois, assegura que o serviço do <i>nginx</i> está rodando corretamente</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        Árvore do <i>nginx/manifests/init.pp</i>:<br/>
+                                        <pre>
+class nginx {
+
+  package { "nginx":
+    ensure  => present,
+    require => Class["system-update"],
+  }
+
+  service { "nginx":
+    ensure  => "running",
+    require => Package["nginx"],
+  }
+}
+                                        </pre>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        rvore do <i>Vagrantfile</i>:<br/>
+                                        <pre>
+Vagrant.configure("2") do |config|
+
+# Define parâmetros no VirtualBox 
+ config.vm.provider "virtualbox" do |v|
+  v.name = "precise_xginx"
+  v.memory = 1024
+  v.cpus = 1
+end 
+
+  #Define nome no comando Vagrant global-status
+	config.vm.define "Grupao da massa"
+  config.vm.box = "hashicorp/precise64"
+
+	config.vm.network :private_network, ip: "192.168.33.111"
+  config.vm.synced_folder "www/", "/home/www/", create: true
+
+# Define o path para os diretórios puppet, os diretórios/arquivos devem estar criados antes
+	config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.module_path = "modules"
+    puppet.options = ['--verbose']
+	end
+	
+end
+                                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>	
+        </div>
+
+        <!-- Core JavaScript Files -->
+        <script src="js/jquery.min.js"></script>	 
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.easing.min.js"></script>
+        <script src="js/wow.min.js"></script>
+        <script src="js/jquery.scrollTo.js"></script>
+        <script src="js/nivo-lightbox.min.js"></script>
+        <script src="js/custom.js"></script>
+
+
+    </body>
+</html>

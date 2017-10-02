@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # Define parâmetros no VirtualBox
+  config.vm.provider "virtualbox" do |v|
+    v.name = "precise_xginx_samba_grupo03"
+    v.memory = 1024
+    v.cpus = 1
+  end
+
+  #Define nome no comando Vagrant global-status
+  config.vm.define "Box do Grupo 03"
+  config.vm.box = "hashicorp/precise64"
+
+  config.vm.network :private_network, ip: "192.168.33.111"
+  config.vm.synced_folder "www/", "/home/www/", create: true
+
+  #Pasta inicial de dados do Samba
+  config.vm.synced_folder "modules/samba/files", "/home/dados/", create: true
+
+  # Define o path para os diretórios puppet, os diretórios/arquivos devem estar criados antes
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.module_path = "modules"
+    puppet.options = ['--verbose']
+  end
+
+  #File com as configurações de grupo do samba
+  #config.vm.provision "shell", path: "modules/samba/files/group_script.sh"
+
+end

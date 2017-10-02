@@ -1,0 +1,15 @@
+Vagrant.configure("2") do |config|
+  
+  # Define nome no comando Vagrant global-status
+    config.vm.define "Nome Aluno"
+
+    config.vm.box = "hashicorp/precise64"
+  
+    config.vm.box_url = "file:///Users/paulosausen/Redes_2/precise64.box"
+    
+    config.vm.network :private_network, ip: "192.168.33.111"
+    
+    config.vm.provision "shell", inline: "echo Novo Box Pronto !!!"
+
+
+end

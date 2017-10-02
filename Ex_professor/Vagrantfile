@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+# Define parâmetros no VirtualBox 
+ config.vm.provider "virtualbox" do |v|
+  v.gui = true
+  v.name = "sausen"
+  v.memory = 1024
+  v.cpus = 1
+end 
+
+# Define nome no comando Vagrant global-status
+config.vm.define "Paulo Sausen"
+
+ # Eu uso o precise64, mas caso tenha problemas use o precise32 alterando a linha a baixo 
+ # e baixando o mesmo pelo link que consta no arquivo dicas.txt
+ # 
+ config.vm.box = "hashicorp/precise64"
+ config.vm.box_url = "file:///Users/paulosausen/Redes_2/precise64.box"
+ #config.vm.box_url = "file:///Users/paulosausen/ubuntu/precise64/precise32.box"
+
+config.vm.network :private_network, ip: "192.168.33.111"
+
+# Define o path para os diretórios puppet, os diretórios/arquivos devem estar criados antes
+config.vm.provision :puppet do |puppet|
+         puppet.manifests_path = "manifests"
+         puppet.module_path = "modules"
+         puppet.options = ['--verbose']
+    end
+  
+
+end

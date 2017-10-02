@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <title>Instalação Samba via Vagrant/Puppet</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="plugins/prism/prism.css">
+    <link rel="stylesheet" href="plugins/elegant_font/css/style.css">
+
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="css/styles.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="body-green">
+<div class="page-wrapper">
+    <!-- ******Header****** -->
+    <header id="header" class="header">
+        <div class="container">
+            <div class="branding">
+                <h1 class="logo">
+                    <a href="index.ejs">
+                        <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                        <span class="text-highlight">Grupo</span><span class="text-bold">03</span>
+                    </a>
+                </h1>
+            </div>
+            Diego, Maikel e Paulo - Unijuí - Redes II
+        </div><!--//container-->
+    </header><!--//header-->
+    <div class="doc-wrapper">
+        <div class="container">
+            <div id="doc-header" class="doc-header text-center">
+                <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start - Servidor de arquivos Samba</h1>
+            </div><!--//doc-header-->
+            <div class="doc-body">
+                <div class="doc-content">
+                    <div class="content-inner">
+                        <section id="download-section" class="doc-section">
+                            <h2 class="section-title">Download</h2>
+                            <div class="section-block">
+                                <p>A seguir será mostrado como instalar o <b>Servidor de Arquivos Samba</b> em uma Vagrant Box rodando Linux Precise64. Você está visualizando esse tutorial a partir do Servidor HTTP Nginx, a instalação e configuração dele não será tratada aqui, porém o projeto completo abaixo contempla com esses arquivos de configuração.
+                                </p>
+                                <p>Ah, esse layout é grátis em: <a href="https://themes.3rdwavemedia.com/">https://themes.3rdwavemedia.com/</a> </p>
+                                <a href="https://github.com/paulohartmann/unijui-redes2" class="btn btn-green" target="_blank"><i class="fa fa-github"></i> Projet on GitHub</a>
+                            </div>
+                        </section><!--//doc-section-->
+
+
+                        <section id="installation-section" class="doc-section">
+                            <h2 class="section-title">Instalação</h2>
+                            <div id="step1"  class="section-block">
+                                <h3 class="block-title">Passo Um</h3>
+                                <p>Caso você ainda não tenha, é necessário fazer o download do Virtual Box e do Vagrant em sua máquina.
+                                </p>
+                                <div class="code-block">
+                                    <h6>Na sequência:</h6>
+                                    <!-- &gt; &lt; -->
+                                    <p><code>sudo apt-get update</code></p>
+                                    <p><code>sudo apt-get install virtual box</code></p>
+                                    <p><code>sudo apt-get install vagrant</code></p>
+                                </div><!--//code-block-->
+                            </div><!--//section-block-->
+
+                            <div id="step2"  class="section-block">
+                                <h3 class="block-title">Passo Dois</h3>
+                                <p>Em seu arquivo <i>Vagrantfile</i> iremos fazer a sincronização de uma pasta para passar alguns arquivos do samba diretamente para o box. E para fazer isso basta criar a estrutura de pasta onde nossos arquivos estarão e inserir a linha de código a baixo no seu arquivo Vagrantfile</p>
+                                <p>Dentro da pasta modules de seu projeto, cria uma pasta chamada <i>Samba/</i>, na sequência crie outra pasta, com o nome, <i>files/</i>, desta forma a estrutura será: <code>modules/samba/files</code></p>
+                                <p>E em seu arquivo <i>Vagrantfile</i> adicione a seguinte linha de código:
+                                    <code>config.vm.synced_folder "modules/samba/files", "/home/dados/", create: true</code></p>
+                                <p>Desta forma tudo que colocarmos dentro da pasta <i>files/</i> será espelhada para dentro da box no caminho <i>/home/dados</i>.</p>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    </div>
+                                </div>
+                            </div><!--//section-block-->
+                            <div id="step3"  class="section-block">
+                                <h3 class="block-title">Passo Três</h3>
+                                <p>Vamos alterar o arquivo de configuração do samba e substituir dentro do box. Crie um arquivo chamado <i>smb.conf</i> dentro da pasta que criamos no passo anterior, <i>modules/samba/files/</i>.</p>
+                                <p>Básicamente iremos apenas acrescentar as pastas que o Samba irá compartilhar, iremos adicionar a seguinte configuração para a pasta "Publica/"</p>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h6>Declaração de pasta dentro do smb.conf</h6>
+                                        <div class="code-block">
+                                            <pre><code class="language-markup">#folder compartilhado publicamente
+[Public]
+  comment = Pasta publica Users do Samba aceitando Guest
+  path = /samba/Publico
+  read only = No
+  guest ok = Yes
+  create mask = 0777
+  directory mask = 0777
+
+#folder privado para usuario 'pauloh'
+[NSFW]
+  comment = Pasta privada
+  path = /samba/NSFW
+  force user = pauloh
+  read only = No
+  guest ok = No
+  create mask = 0777
+  directory mask = 0777
+                                                </code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                </div>
+                                <div class="callout-block callout-info">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <h4 class="callout-title">Arquivo smb.conf</h4>
+                                        <p>O arquivo completo é um pouco extenso, por isso ele pode ser encontrado <a href="/smb.conf" target="_blank" >aqui</a> com as configurações necessárias de pastas já cadastradas.</p>
+                                    </div><!--//content-->
+                                </div><!--//callout-block-->
+                            </div><!--//section-block-->
+                            <div id="step4"  class="section-block">
+                                <h3 class="block-title">Passo Quatro</h3>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <p>Dentro da pasta manifests do projeto, no arquivo <i>default.pp</i> iremos adicionar o modulo novo que será visto nesta instalação. Copie a linha abaixo e cole junto com seus includes do projeto</p>
+                                        <p><code>include samba</code></p><br/>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <p>Seu arquivo default.pp possivelmente ficará com um trecho de código parecido com este:</p>
+                                        <div class="code-block">
+                                            <pre><code class="language-markup">#includes do projeto  a partir do uso de modules
+  include system-update
+  include nginx
+  include samba
+  #demais includes
+</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                </div><!--//row-->
+                            </div><!--//section-block-->
+                            <div id="step5"  class="section-block">
+                                <h3 class="block-title">Passo Cinco</h3>
+                                <p>Dentro da pasta modules, com o include do passo quatro executado, crie uma pasta chamada <i>samba/</i>, dentro dela por sua vez crie uma pasta chamada <i>manifests/</i> e la dentro, ainda, um arquivo chamado <i>pp.init</i> e adicione o código que pode ser visto a direita:
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h6>Visualização parcial da árvore de arquivos do projeto</h6>
+                                        <ul class="list">
+                                            <li>manifests/</li>
+                                            <li>modules/
+                                                <ul>
+                                                    <li>samba/
+                                                        <ul>
+                                                            <li>manifests/
+                                                                <ul>
+                                                                    <li>init.pp</li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>nginx/</li>
+                                                    <li>system-update/</li>
+                                                </ul>
+                                            </li>
+                                            <li>Vagrantfile</li>
+                                        </ul>
+
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h6>init.pp</h6>
+                                        <div class="code-block">
+                                            <pre><code class="language-markup">class samba {
+  package { "samba":
+    ensure  => present,
+    require => Class["system-update"],
+  }
+}</code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                </div><!--//row-->
+
+                                <div class="callout-block callout-info">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <h4 class="callout-title">Árvore de diretórios</h4>
+                                        <p>Para tentar facilitar um pouco a criação de todas as pastas e arquivos, a árvore completa do nosso projeto esta disponivel <a href="/arvoreArquivo.png" target="_blank" >aqui</a>.</p>
+                                    </div><!--//content-->
+                                </div><!--//callout-block-->
+
+                                <p>Desta forma iremos instalar o pacote samba após a classe <i>system-update</i> for executada(o projeto base sem o samba pode ser encontrado no GitHub).</p>
+
+                            </div><!--//section-block-->
+
+                            <div id="step6"  class="section-block">
+                                <h3 class="block-title">Passo Seis</h3>
+                                <p>Ainda no arquivo init.pp, você agora deve inserir um novo trecho de código para fazer a criação da pasta que será feito o compartilhamento posterior.</p>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <h6>Trecho para criação da pasta raíz de compartilhamento</h6>
+                                        <div class="code-block">
+                                            <pre><code class="language-markup">#diretorio para arquivos compartilhados samba
+file {'/samba/':
+  ensure => directory,
+  owner  => 'root',
+  group  => 'root',
+  mode   => '0777';
+}
+
+file {'/samba/Publico':
+  ensure => directory,
+  owner  => 'root',
+  group  => 'root',
+  mode   => '0777';
+}
+                                                </code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                </div>
+                            </div><!--//section-block-->
+
+                            <div id="step7"  class="section-block">
+                                <h3 class="block-title">Passo Sete</h3>
+                                <p>Ainda no arquivo init.pp, vamos inserir o trecho de código que fará a cópia do arquivo de configuração para dentro da pasta do Samba. Basta copiar o trecho abaixo e colar após as ultimas alterações.</p>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <h6>Cópia do smb.conf para o servidor</h6>
+                                        <div class="code-block">
+                                            <pre><code class="language-markup">#copia arquivo de conf do samba
+  exec {"copia_conf_samba":
+    require => Package["samba"],
+    command => "sudo cp -f /home/dados/smb.conf /etc/samba/",
+    onlyif => ['ls -l /home/dados/smb.conf']
+  }
+                                                </code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                </div>
+                                <div class="callout-block callout-success">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <h4 class="callout-title">Concluído!</h4>
+                                        <p>Nesse momento é possível executar nossa box e realizar os testes com o servidor Samba rodando em 192.168.33.111 e aceitando na pasta <i>Publica</i> leitura e edição para usuarios 'convidados'.</p>
+                                    </div><!--//content-->
+                                </div><!--//callout-block-->
+                            </div><!--//section-block-->
+
+                            <div id="step8"  class="section-block">
+                                <h2 class="block-title">EXTRA: Adição de usuário e pasta privada</h2>
+                                <p>Podemos agora criar um usuário para o samba fazendo com que ele consiga acessar a pasta privada, primeiramente iremos adicionar um
+                                    script na pasta <i>files/ que contem os comandos a serem executados para o usuario ser criado automaticamente</i>. O script com os comandos necessários pode ser
+                                    encontrado <a href="/adduser.sh">aqui</a>. O script irá cadastrar um usuário: <b>pauloh</b> e com a senha: <b>bemsegura</b></p>
+                                <p>Após adicionar o script no arquivo file, é necessário exucutar mais um comando dentro do arquivo <i>init.pp</i> que fará a execução do script dentro do box.</p>
+                                <p>O arquivo completo <i>init.pp</i> do modulo samba, pode ser baixado <a href="/init.pp" target="_blank">aqui</a> </p>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <h6>Comando para executar o .sh</h6>
+                                        <div class="code-block">
+                                            <pre><code class="language-markup">  #copia arquivo de conf do samba
+  exec {"cria_user_samba":
+    #path => ["/usr/bin", "/usr/sbin", "/bin/bash"],
+    command => "sudo /bin/bash /home/dados/adduser.sh",
+    refreshonly => true
+  }
+                                                </code></pre>
+                                        </div><!--//code-block-->
+                                    </div>
+                                </div>
+                                <div class="callout-block callout-success">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <h4 class="callout-title">Agora sim!</h4>
+                                        <p>Conecte no servidor utilizando o caminho <b>\\192.168.33.111\</b> ou para usuários de linux <b>smb://192.168.33.111</b></p>
+                                    </div><!--//content-->
+                                </div><!--//callout-block-->
+                            </div><!--//section-block-->
+                        </section><!--//doc-section-->
+
+                        <!-- FIM DO PROJETO NOVO, PARA BAIXO APENAS EXEMPLOS DE FRONT-END-->
+
+
+                    </div><!--//content-inner-->
+                </div><!--//doc-content-->
+                <div class="doc-sidebar hidden-xs">
+                    <nav id="doc-nav">
+                        <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
+                            <li><a class="scrollto" href="#download-section">Download</a></li>
+                            <li>
+                                <a class="scrollto" href="#installation-section">Instalação</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#step1">01: Dropbox e Vagrant</a></li>
+                                    <li><a class="scrollto" href="#step2">02: synced_folder files/</a></li>
+                                    <li><a class="scrollto" href="#step3">03: edit: smb.conf</a></li>
+                                    <li><a class="scrollto" href="#step4">04: include samba</a></li>
+                                    <li><a class="scrollto" href="#step5">05: class samba</a></li>
+                                    <li><a class="scrollto" href="#step6">06: mkdir /home/samba/</a></li>
+                                    <li><a class="scrollto" href="#step7">07: cp -f smb.conf</a></li>
+                                    <li><a class="scrollto" href="#step8">08: Extra</a></li>
+                                </ul><!--//nav-->
+                            </li>
+                        </ul><!--//doc-menu-->
+                    </nav>
+                </div><!--//doc-sidebar-->
+            </div><!--//doc-body-->
+        </div><!--//container-->
+    </div><!--//doc-wrapper-->
+</div><!--//page-wrapper-->
+
+<footer id="footer" class="footer text-center">
+    <div class="container">
+        <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
+        <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com/" targe="_blank">Xiaoying Riley</a> for developers</small>
+
+    </div><!--//container-->
+</footer><!--//footer-->
+
+
+<!-- Main Javascript -->
+<script type="text/javascript" src="plugins/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="plugins/prism/prism.js"></script>
+<script type="text/javascript" src="plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html> 
+
