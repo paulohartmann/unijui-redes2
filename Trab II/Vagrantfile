@@ -3,6 +3,13 @@
 
 Vagrant.configure("2") do |config|
 
+  config.vm.network "public_network", bridge: "s",
+  auto_config: false
+  #manual ip
+  config.vm.provision "shell",
+  run: "always",
+  inline: "ifconfig eth1 192.168.1.190 netmask 255.255.255.0 up"
+
   # Define parâmetros no VirtualBox
   config.vm.provider "virtualbox" do |v|
     v.name = "precise_xginx_samba_grupo03"
@@ -14,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "Box do Grupo 03"
   config.vm.box = "hashicorp/precise64"
 
-  config.vm.network :private_network, ip: "192.168.33.111"
+  #config.vm.network :private_network, ip: "192.168.1.190"
   config.vm.synced_folder "www/", "/home/www/", create: true
 
   #Pasta inicial de dados do Samba
